@@ -1,0 +1,8 @@
+@import "tailwindcss";
+html {
+  scroll-behavior: smooth;
+}
+section, 
+div[id="body"] {
+  scroll-margin-top: 100px;
+}
