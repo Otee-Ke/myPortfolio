@@ -33,43 +33,52 @@ initProjectSlider();
 
 document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
     const brandGroup = document.getElementById('brand-group');
     const hamburgerIcon = document.getElementById('hamburger-icon');
     const closeIcon = document.getElementById('close-icon');
-    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+    const navLinks = document.querySelectorAll('#nav-menu a');
 
-    if (menuToggle && mobileMenu && brandGroup && hamburgerIcon && closeIcon) {
+    if (menuToggle && navMenu && brandGroup && hamburgerIcon && closeIcon) {
         
         const resetNavbarNormal = () => {
-            mobileMenu.classList.add('hidden');
-            mobileMenu.classList.remove('flex');
-            brandGroup.classList.remove('hidden'); 
+            navMenu.classList.add('hidden');
+            brandGroup.classList.remove('hidden');
             hamburgerIcon.classList.remove('hidden');
             closeIcon.classList.add('hidden');
-            document.body.style.overflow = '';
         };
 
         const toggleMenu = () => {
-            const isOpen = !mobileMenu.classList.contains('hidden');
+            const isOpen = !navMenu.classList.contains('hidden') && window.innerWidth < 768;
+            
             if (isOpen) {
                 resetNavbarNormal();
             } else {
-                mobileMenu.classList.remove('hidden');
-                mobileMenu.classList.add('flex');
-                brandGroup.classList.add('hidden'); 
+                brandGroup.classList.add('hidden');
+                navMenu.classList.remove('hidden');
+                navMenu.classList.add('flex');
                 hamburgerIcon.classList.add('hidden');
                 closeIcon.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
             }
         };
 
         menuToggle.addEventListener('click', toggleMenu);
 
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', resetNavbarNormal);
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    resetNavbarNormal();
+                }
+            });
+        });
+        
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                navMenu.classList.remove('hidden');
+                brandGroup.classList.remove('hidden');
+            } else if (closeIcon.classList.contains('hidden')) {
+                navMenu.classList.add('hidden');
+            }
         });
     }
 });
-
-
